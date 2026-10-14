@@ -1,14 +1,36 @@
 import { Module } from '@nestjs/common';
-import { PatientsController } from './patients.controller';
-import { PatientsService } from './patients.service';
-import { PatientsRepository } from './repositories/patients.repository';
-import { PrismaPatientsRepository } from './repositories/prisma-patients.repository';
+
+// Application Use Cases
+import {
+  GetPatientProfileUseCase,
+  UpdatePatientProfileUseCase,
+  DeletePatientAccountUseCase,
+} from './application/use-cases';
+
+// Application Ports
+import { PatientRepositoryPort } from './application/ports';
+
+// Infrastructure - Repositories
+import { PrismaPatientRepository } from './infrastructure/repositories/prisma-patient.repository';
+
+// Presentation
+import { PatientsController } from './presentation/controllers/patients.controller';
 
 @Module({
   controllers: [PatientsController],
   providers: [
-    PatientsService,
-    { provide: PatientsRepository, useClass: PrismaPatientsRepository },
+    // Use Cases
+    GetPatientProfileUseCase,
+    UpdatePatientProfileUseCase,
+    DeletePatientAccountUseCase,
+
+    // Repository Implementation
+    { provide: PatientRepositoryPort, useClass: PrismaPatientRepository },
+  ],
+  exports: [
+    GetPatientProfileUseCase,
+    UpdatePatientProfileUseCase,
+    DeletePatientAccountUseCase,
   ],
 })
 export class PatientsModule {}

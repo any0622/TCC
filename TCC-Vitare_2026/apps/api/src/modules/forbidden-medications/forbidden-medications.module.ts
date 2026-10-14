@@ -1,18 +1,27 @@
-// src/modules/forbidden-medications/forbidden-medications.module.ts
 import { Module } from '@nestjs/common';
-import { ForbiddenMedicationsController } from './forbidden-medications.controller';
-import { ForbiddenMedicationsService } from './forbidden-medications.service';
-import { ForbiddenMedicationsRepository } from './repositories/forbidden-medications.repository';
-import { PrismaForbiddenMedicationsRepository } from './repositories/prisma-forbidden-medications.repository';
+
+import {
+  CreateForbiddenMedicationUseCase,
+  RemoveForbiddenMedicationUseCase,
+  GetForbiddenMedicationsUseCase,
+} from './application/use-cases';
+
+import { ForbiddenMedicationRepositoryPort } from './application/ports';
+import { PrismaForbiddenMedicationRepository } from './infrastructure/repositories/prisma-forbidden-medication.repository';
+import { ForbiddenMedicationsController } from './presentation/controllers/forbidden-medications.controller';
 
 @Module({
   controllers: [ForbiddenMedicationsController],
   providers: [
-    ForbiddenMedicationsService,
-    {
-      provide: ForbiddenMedicationsRepository,
-      useClass: PrismaForbiddenMedicationsRepository,
-    },
+    CreateForbiddenMedicationUseCase,
+    RemoveForbiddenMedicationUseCase,
+    GetForbiddenMedicationsUseCase,
+    { provide: ForbiddenMedicationRepositoryPort, useClass: PrismaForbiddenMedicationRepository },
+  ],
+  exports: [
+    CreateForbiddenMedicationUseCase,
+    RemoveForbiddenMedicationUseCase,
+    GetForbiddenMedicationsUseCase,
   ],
 })
 export class ForbiddenMedicationsModule {}

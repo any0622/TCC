@@ -4,10 +4,11 @@ import {
   OnModuleInit,
   OnModuleDestroy,
 } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
-import { PrismaService } from '../prisma/prisma.service';
-import { EmergencyGateway } from '../../modules/emergency/emergency.gateway';
-import { OutboxService, PendingOutboxEvent } from './outbox.service';
+import type { ConfigService } from '@nestjs/config';
+import type { PrismaService } from '../prisma/prisma.service';
+import type { EmergencyGateway } from '../../modules/emergency/emergency.gateway';
+import type { OutboxService } from './outbox.service';
+import { PendingOutboxEvent } from './outbox.service';
 
 const MAX_ATTEMPTS = 5;
 const BASE_RETRY_DELAY_MS = 1000;

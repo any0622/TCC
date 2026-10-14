@@ -1,19 +1,27 @@
 import { Module } from '@nestjs/common';
-import { IdempotencyModule } from '../../infra/idempotency/idempotency.module';
-import { OutboxModule } from '../../infra/outbox/outbox.module';
-import { EmergencyController } from './emergency.controller';
-import { EmergencyService } from './emergency.service';
+import { IdempotencyModule } from '../../../infra/idempotency/idempotency.module';
+import { OutboxModule } from '../../../infra/outbox/outbox.module';
+
+import {
+  TriggerEmergencyUseCase,
+  GetEmergenciesUseCase,
+  GetEmergenciesWithCursorUseCase,
+} from './application/use-cases';
+
+import { EmergencyRepositoryPort } from './application/ports';
+import { PrismaEmergencyRepository } from './infrastructure/repositories/prisma-emergency.repository';
+import { EmergencyController } from './presentation/controllers/emergency.controller';
 import { EmergencyGateway } from './emergency.gateway';
-import { EmergencyRepository } from './repositories/emergency.repository';
-import { PrismaEmergencyRepository } from './repositories/prisma-emergency.repository';
 
 @Module({
   imports: [IdempotencyModule, OutboxModule],
   controllers: [EmergencyController],
   providers: [
-    EmergencyService,
+    TriggerEmergencyUseCase,
+    GetEmergenciesUseCase,
+    GetEmergenciesWithCursorUseCase,
+    { provide: EmergencyRepositoryPort, useClass: PrismaEmergencyRepository },
     EmergencyGateway,
-    { provide: EmergencyRepository, useClass: PrismaEmergencyRepository },
   ],
   exports: [EmergencyGateway],
 })

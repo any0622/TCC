@@ -1,19 +1,26 @@
 import { Module } from '@nestjs/common';
-import { CacheModule } from '../../infra/cache/cache.module';
-import { DiseaseDictionaryController } from './disease-dictionary.controller';
-import { DiseaseDictionaryService } from './disease-dictionary.service';
-import { DiseaseDictionaryRepository } from './repositories/disease-dictionary.repository';
-import { PrismaDiseaseDictionaryRepository } from './repositories/prisma-disease-dictionary.repository';
+import { CacheModule } from '../../../infra/cache/cache.module';
+
+import {
+  SearchDiseasesUseCase,
+  FindDiseaseByIdUseCase,
+} from './application/use-cases';
+
+import { DiseaseDictionaryRepositoryPort } from './application/ports';
+import { PrismaDiseaseDictionaryRepository } from './infrastructure/repositories/prisma-disease-dictionary.repository';
+import { DiseaseDictionaryController } from './presentation/controllers/disease-dictionary.controller';
 
 @Module({
   imports: [CacheModule],
   controllers: [DiseaseDictionaryController],
   providers: [
-    DiseaseDictionaryService,
-    {
-      provide: DiseaseDictionaryRepository,
-      useClass: PrismaDiseaseDictionaryRepository,
-    },
+    SearchDiseasesUseCase,
+    FindDiseaseByIdUseCase,
+    { provide: DiseaseDictionaryRepositoryPort, useClass: PrismaDiseaseDictionaryRepository },
+  ],
+  exports: [
+    SearchDiseasesUseCase,
+    FindDiseaseByIdUseCase,
   ],
 })
 export class DiseaseDictionaryModule {}

@@ -8,10 +8,10 @@ import {
   MessageBody,
 } from '@nestjs/websockets';
 import { Server, Socket } from 'socket.io';
-import { JwtService } from '@nestjs/jwt';
-import { ConfigService } from '@nestjs/config';
+import type { JwtService } from '@nestjs/jwt';
+import type { ConfigService } from '@nestjs/config';
 import { Logger } from '@nestjs/common';
-import { RedisService } from '../../infra/redis/redis.service';
+import type { RedisService } from '../../infra/redis/redis.service';
 
 interface AuthenticatedSocket extends Socket {
   userId?: string;

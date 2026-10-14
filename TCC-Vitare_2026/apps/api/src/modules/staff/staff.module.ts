@@ -1,51 +1,38 @@
 import { Module } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
-import { JwtModule } from '@nestjs/jwt';
-import { PassportModule } from '@nestjs/passport';
-import { StaffAuthController } from './staff-auth.controller';
-import { StaffAuthService } from './staff-auth.service';
-import { EmergencyFeedController } from './emergency-feed.controller';
-import { PatientLookupController } from './patient-lookup.controller';
-import { StaffJwtStrategy } from './strategies/staff-jwt.strategy';
-import { StaffRepository } from './repositories/staff.repository';
-import { PrismaStaffRepository } from './repositories/prisma-staff.repository';
-import { EmergencyFeedRepository } from './repositories/emergency-feed.repository';
-import { PrismaEmergencyFeedRepository } from './repositories/prisma-emergency-feed.repository';
-import { PatientLookupRepository } from './repositories/patient-lookup.repository';
-import { PrismaPatientLookupRepository } from './repositories/prisma-patient-lookup.repository';
+
+import {
+  RegisterStaffUseCase,
+  LoginStaffUseCase,
+  BootstrapAdminUseCase,
+  GetStaffProfileUseCase,
+} from './application/use-cases';
+
+import { StaffRepositoryPort, HashingServicePort, TokenGeneratorPort } from './application/ports';
+import { PrismaStaffRepository } from './infrastructure/repositories/prisma-staff.repository';
+import { StaffAuthController } from './presentation/controllers/staff-auth.controller';
+import { StaffJwtAuthGuard } from '../guards/staff-jwt-auth.guard';
+import { StaffJwtStrategy } from './infrastructure/strategies/staff-jwt.strategy';
+import { BcryptHashingService } from './infrastructure/services/bcrypt-hashing.service';
+import { JwtTokenGenerator } from './infrastructure/services/jwt-token-generator.service';
 
 @Module({
-  imports: [
-    PassportModule,
-    JwtModule.registerAsync({
-      inject: [ConfigService],
-      useFactory: (config: ConfigService) => ({
-        secret: config.get<string>('STAFF_JWT_SECRET'),
-        signOptions: {
-          expiresIn: config.get<string>(
-            'STAFF_JWT_EXPIRES_IN',
-          ) as `${number}${'s' | 'm' | 'h' | 'd'}`,
-        },
-      }),
-    }),
-  ],
-  controllers: [
-    StaffAuthController,
-    EmergencyFeedController,
-    PatientLookupController,
-  ],
+  controllers: [StaffAuthController],
   providers: [
-    StaffAuthService,
+    RegisterStaffUseCase,
+    LoginStaffUseCase,
+    BootstrapAdminUseCase,
+    GetStaffProfileUseCase,
+    { provide: StaffRepositoryPort, useClass: PrismaStaffRepository },
+    { provide: HashingServicePort, useClass: BcryptHashingService },
+    { provide: TokenGeneratorPort, useClass: JwtTokenGenerator },
+    StaffJwtAuthGuard,
     StaffJwtStrategy,
-    { provide: StaffRepository, useClass: PrismaStaffRepository },
-    {
-      provide: EmergencyFeedRepository,
-      useClass: PrismaEmergencyFeedRepository,
-    },
-    {
-      provide: PatientLookupRepository,
-      useClass: PrismaPatientLookupRepository,
-    },
+  ],
+  exports: [
+    RegisterStaffUseCase,
+    LoginStaffUseCase,
+    BootstrapAdminUseCase,
+    GetStaffProfileUseCase,
   ],
 })
 export class StaffModule {}

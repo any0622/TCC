@@ -1,14 +1,27 @@
 import { Module } from '@nestjs/common';
-import { ContactsController } from './contacts.controller';
-import { ContactsService } from './contacts.service';
-import { ContactsRepository } from './repositories/contacts.repository';
-import { PrismaContactsRepository } from './repositories/prisma-contacts.repository';
+
+import {
+  CreateContactUseCase,
+  RemoveContactUseCase,
+  GetContactsUseCase,
+} from './application/use-cases';
+
+import { ContactRepositoryPort } from './application/ports';
+import { PrismaContactRepository } from './infrastructure/repositories/prisma-contact.repository';
+import { ContactsController } from './presentation/controllers/contacts.controller';
 
 @Module({
   controllers: [ContactsController],
   providers: [
-    ContactsService,
-    { provide: ContactsRepository, useClass: PrismaContactsRepository },
+    CreateContactUseCase,
+    RemoveContactUseCase,
+    GetContactsUseCase,
+    { provide: ContactRepositoryPort, useClass: PrismaContactRepository },
+  ],
+  exports: [
+    CreateContactUseCase,
+    RemoveContactUseCase,
+    GetContactsUseCase,
   ],
 })
 export class ContactsModule {}

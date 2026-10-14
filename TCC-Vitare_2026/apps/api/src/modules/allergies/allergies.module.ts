@@ -1,14 +1,33 @@
 import { Module } from '@nestjs/common';
-import { AllergiesController } from './allergies.controller';
-import { AllergiesService } from './allergies.service';
-import { AllergiesRepository } from './repositories/allergies.repository';
-import { PrismaAllergiesRepository } from './repositories/prisma-allergies.repository';
+
+// Application Use Cases
+import {
+  CreateAllergyUseCase,
+  RemoveAllergyUseCase,
+  GetAllergiesUseCase,
+} from './application/use-cases';
+
+// Application Ports
+import { AllergyRepositoryPort, ALLERGY_REPOSITORY_PORT } from './application/ports';
+
+// Infrastructure - Repositories
+import { PrismaAllergyRepository } from './infrastructure/repositories/prisma-allergy.repository';
+
+// Presentation
+import { AllergiesController } from './presentation/controllers/allergies.controller';
 
 @Module({
   controllers: [AllergiesController],
   providers: [
-    AllergiesService,
-    { provide: AllergiesRepository, useClass: PrismaAllergiesRepository },
+    CreateAllergyUseCase,
+    RemoveAllergyUseCase,
+    GetAllergiesUseCase,
+    { provide: ALLERGY_REPOSITORY_PORT, useClass: PrismaAllergyRepository },
+  ],
+  exports: [
+    CreateAllergyUseCase,
+    RemoveAllergyUseCase,
+    GetAllergiesUseCase,
   ],
 })
 export class AllergiesModule {}

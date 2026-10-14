@@ -1,0 +1,1 @@
+export { HealthCheckUseCase } from './health-check.use-case';

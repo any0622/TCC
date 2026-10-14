@@ -1,0 +1,1 @@
+export { CreateAllergyRequestDto, AllergyResponseDto } from './allergy.dto';

@@ -1,14 +1,42 @@
 import { Module } from '@nestjs/common';
-import { MedicationsController } from './medications.controller';
-import { MedicationsService } from './medications.service';
-import { MedicationsRepository } from './repositories/medications.repository';
-import { PrismaMedicationsRepository } from './repositories/prisma-medications.repository';
+
+// Application Use Cases
+import {
+  CreateMedicationUseCase,
+  UpdateMedicationUseCase,
+  DeleteMedicationUseCase,
+  GetActiveMedicationsUseCase,
+  GetMedicationHistoryUseCase,
+} from './application/use-cases';
+
+// Application Ports
+import { MedicationRepositoryPort } from './application/ports';
+
+// Infrastructure - Repositories
+import { PrismaMedicationRepository } from './infrastructure/repositories/prisma-medication.repository';
+
+// Presentation
+import { MedicationsController } from './presentation/controllers/medications.controller';
 
 @Module({
   controllers: [MedicationsController],
   providers: [
-    MedicationsService,
-    { provide: MedicationsRepository, useClass: PrismaMedicationsRepository },
+    // Use Cases
+    CreateMedicationUseCase,
+    UpdateMedicationUseCase,
+    DeleteMedicationUseCase,
+    GetActiveMedicationsUseCase,
+    GetMedicationHistoryUseCase,
+
+    // Repository Implementation
+    { provide: MedicationRepositoryPort, useClass: PrismaMedicationRepository },
+  ],
+  exports: [
+    CreateMedicationUseCase,
+    UpdateMedicationUseCase,
+    DeleteMedicationUseCase,
+    GetActiveMedicationsUseCase,
+    GetMedicationHistoryUseCase,
   ],
 })
 export class MedicationsModule {}
