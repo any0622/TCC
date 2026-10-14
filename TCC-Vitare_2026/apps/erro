@@ -1,0 +1,12 @@
+(node:23328) DeprecationWarning: Calling client.query() when the client is already executing a query is deprecated and will be removed in pg@9.0. Use async/await or an external async flow control mechanism instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+
+Invalid `this.prisma.user.update()` invocation in
+/home/thony/Documentos/TCC-Vitare_2026/apps/api/src/modules/patients/repositories/prisma-patients.repository.ts:15:29
+
+  12 }
+  13 
+  14 update(id: string, data: Partial<User>): Promise<User> {
+→ 15   return this.prisma.user.update(
+Unique constraint failed on the (not available)

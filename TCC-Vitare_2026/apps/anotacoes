@@ -1,0 +1,120 @@
+31-08-26
+
+os dados das tabelas de doenças e medicamentos não são exclu�dos do primaStudio, pois
+é relevante a permanência desses dados, ¹por isso acredito que os dados devem ficar.
+
+sugestão -> em monitoramento inserir uma sidebar que contenha:
+emergencias
+pacientes
+etc (caso queira algo mais, mas por enquanto (31-08-26) somente foi pensado até pacientes)
+
+onde o socorrista vendo o nome e outra informação (acredito que o CPF é melhor nessa situação)
+vai em pacientes, insere os dados e tem acesso a ficha completa do paciente, vendo por exmplo
+os medicamentos que ele já não está utilizando mais que ele excluiu da interface 
+(¹ou seja no banco está isActive: false), mas pode voltar a utilizar em algum momento
+e ao reinserir, ao invés de duplicar o registro do medicamento com um ativo o outro não,
+transforma-se o desativado em ativado novamente (caso seja a mesma dosagem e frequencia)
+------
+08-09-26
+Verificar se o cadastro está sendo feito mesmo se nenhum campo for inserido depois de
+/cadastro (em /completar-cadastro), caso isso ocorra deve ser corrigido. *feito->09-09-26
+
+Ajustar app/page.tsx para que os dados apareçam corretos e que dê mais
+enfâse ao botão. E em components/app-sidebar.tsx ajustar os dados do usuário
+exibidos no fim da sidebar.
+
+E falta:
+
+-Medicamentos: medicamentos não permitidos;
+
+-Contatos de emergencia: ReGex para telefones;
+
+-Botão de emergencia;
+
+-Monitoramento: /emergencias e /pacientes 
+
+**Sendo até Quinta Monitoramento -> /pacientes
+------
+09-09-26
+foi inserido o toggle de visualização de senha e feito isso*
+
+Precisa ser implementado uma forma de editar as alergias assim
+como as doenças crônicas são feitas, isso pode ser inserido em /perfil
+
+E falta:
+
+-Ajustar app/page.tsx para que os dados apareçam corretos e que dê mais
+enfâse ao botão. E em components/app-sidebar.tsx ajustar os dados do usuário
+exibidos no fim da sidebar.
+
+-Medicamentos: medicamentos não permitidos;
+
+-Contatos de emergencia: ReGex para telefones;
+
+-Botão de emergencia;
+
+-Monitoramento: /emergencias e /pacientes
+-----
+10-10-26
+
+**Corrigir edição de alergias para algo como medicamento e
+doenças crônicas, removendo de /complete-register-form
+e de app/perfil/page, pois houve sobreposição de /page
+ao que era para ser inserido no complete-register, pois
+assim o campo 'Observações' funcionaria corretamente,
+Deixando o cadastro de usuário somente para inserir informações
+pessoais e não médicas**
+
+E falta:
+
+-Medicamentos: medicamentos não permitidos;
+
+-Botão de emergencia;
+
+-Monitoramento: /emergencias e /pacientes
+
+-Ajustar um pouco mais o botão para mais enfâse. (sem IA, altera-se apenas classes tailwind)*¹
+
+*¹Deixar por ultimo por ser um pequeno detalhe
+---
+11-09-26
+
+fazer tudo o que está no dia anterior
+
+**Corrigir edição de alergias para algo como medicamento e
+doenças crônicas, removendo de /complete-register-form
+e de app/perfil/page, assim o campo 'Observações' funcionaria corretamente,
+Deixando o cadastro de usuário somente para inserir informações pessoais e não médicas**
+
+---
+12-09-26
+
+*** Validação Double Opt-In para verificar a existencia do email
+
+---
+13-09-26
+
+Falta:
+
+*** Validação Double Opt-In para verificar a existencia do email
+
+-Botão de emergencia - com troca de schedules para frequency em medicamentos;
+
+-Monitoramento: /emergencias e /pacientes
+
+-Ajustar um pouco mais o botão para mais enfâse. (sem IA, altera-se apenas classes tailwind)*¹
+
+*¹Deixar por ultimo por ser um pequeno detalhe
+---
+23-09-26
+
+Ajustar em /medicamento a inserção do icone de exclusão de medicamento
+---
+27-09-26
+
+Continuar a correção da aquisição da geolocalização para o firefox,
+pois no chrome funciona corretamente - Obs: consulte chatgpt
+---
+29-09-26
+
+Falta ligar o Resend, pois o Google está feito

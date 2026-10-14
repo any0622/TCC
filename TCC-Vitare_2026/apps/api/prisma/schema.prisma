@@ -1,0 +1,281 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider     = "prisma-client"
+  output       = "../generated/prisma"
+  moduleFormat = "cjs"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum EmergencyStatus {
+  TRIGGERED
+  NOTIFIED
+  RESOLVED
+}
+
+enum StaffRole {
+  MEDICO_SOCORRISTA
+  ENFERMEIRO_SOCORRISTA
+  TECNICO_ENFERMAGEM
+  OPERADOR_TACTICAL
+  ADMINISTRATIVO
+}
+
+model User {
+  id           String    @id @default(uuid()) @db.Uuid
+  fullName     String    @map("full_name") @db.VarChar(255)
+  email        String    @unique @db.VarChar(320)
+  passwordHash String?   @map("password_hash")
+  googleId     String?   @unique @map("google_id") @db.VarChar(255)
+  avatarUrl    String?   @map("avatar_url")
+  cpf          String?   @unique @db.VarChar(14)
+  phone        String?   @db.VarChar(30)
+  address      String?
+  birthDate    DateTime? @map("birth_date") @db.Date
+  bloodType    String?   @map("blood_type") @db.VarChar(5)
+  weightKg     Decimal?  @map("weight_kg") @db.Decimal(5, 2)
+  heightCm     Int?      @map("height_cm")
+  createdAt    DateTime  @default(now()) @map("created_at")
+  updatedAt    DateTime  @updatedAt @map("updated_at")
+
+  conditions          ChronicCondition[]
+  medications         Medication[]
+  medicationHistory   MedicationHistory[]
+  contacts            EmergencyContact[]
+  emergencyEvents     EmergencyEvent[]
+  refreshTokens       RefreshToken[]
+  passwordResetTokens PasswordResetToken[]
+  allergies           Allergy[]
+
+  @@map("users")
+  forbiddenMedications ForbiddenMedication[]
+}
+
+model ChronicCondition {
+  id          String    @id @default(uuid()) @db.Uuid
+  userId      String    @map("user_id") @db.Uuid
+  diseaseId   String    @map("disease_id") @db.Uuid
+  notes       String?
+  diagnosedAt DateTime? @map("diagnosed_at") @db.Date
+  isActive    Boolean   @default(true) @map("is_active")
+  createdAt   DateTime  @default(now()) @map("created_at")
+
+  user    User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  disease DiseaseDictionary @relation(fields: [diseaseId], references: [id])
+
+  @@index([userId, isActive])
+  @@map("chronic_conditions")
+}
+
+model Medication {
+  id        String     @id @default(uuid()) @db.Uuid
+  userId    String     @map("user_id") @db.Uuid
+  name      String     @db.VarChar(255)
+  dosage    String     @db.VarChar(100)
+  frequency String     @db.VarChar(100)
+  startDate DateTime   @map("start_date") @db.Date
+  endDate   DateTime?  @map("end_date") @db.Date
+  notes     String?
+  isActive  Boolean    @default(true) @map("is_active")
+  createdAt DateTime   @default(now()) @map("created_at")
+  updatedAt DateTime   @updatedAt @map("updated_at")
+
+  user    User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+  history MedicationHistory[]
+
+  @@index([userId, isActive])
+  @@map("medications")
+}
+
+model MedicationHistory {
+  id           String   @id @default(uuid()) @db.Uuid
+  medicationId String   @map("medication_id") @db.Uuid
+  userId       String   @map("user_id") @db.Uuid
+  changedAt    DateTime @default(now()) @map("changed_at")
+  changedField String   @map("changed_field") @db.VarChar(100)
+  oldValue     String?  @map("old_value")
+  newValue     String?  @map("new_value")
+
+  medication Medication @relation(fields: [medicationId], references: [id], onDelete: Cascade)
+  user       User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([medicationId, changedAt(sort: Desc)])
+  @@index([userId])
+  @@map("medication_history")
+}
+
+model EmergencyContact {
+  id           String   @id @default(uuid()) @db.Uuid
+  userId       String   @map("user_id") @db.Uuid
+  name         String   @db.VarChar(255)
+  phone        String   @db.VarChar(30)
+  relationship String?  @db.VarChar(100)
+  isPrimary    Boolean  @default(false) @map("is_primary")
+  createdAt    DateTime @default(now()) @map("created_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@map("emergency_contacts")
+}
+
+model EmergencyEvent {
+  id              String          @id @default(uuid()) @db.Uuid
+  userId          String          @map("user_id") @db.Uuid
+  triggeredAt     DateTime        @default(now()) @map("triggered_at")
+  latitude        Decimal?        @db.Decimal(10, 8)
+  longitude       Decimal?        @db.Decimal(11, 8)
+  patientSnapshot Json            @map("patient_snapshot") @db.JsonB
+  status          EmergencyStatus @default(TRIGGERED)
+  notes           String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, triggeredAt(sort: Desc)])
+  @@map("emergency_events")
+}
+
+model RefreshToken {
+  id        String    @id @default(uuid()) @db.Uuid
+  userId    String    @map("user_id") @db.Uuid
+  tokenHash String    @map("token_hash") @db.VarChar(64)
+  expiresAt DateTime  @map("expires_at")
+  createdAt DateTime  @default(now()) @map("created_at")
+  revokedAt DateTime? @map("revoked_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([tokenHash])
+  @@map("refresh_tokens")
+}
+
+model PasswordResetToken {
+  id        String    @id @default(uuid()) @db.Uuid
+  userId    String    @map("user_id") @db.Uuid
+  tokenHash String    @map("token_hash") @db.VarChar(64)
+  expiresAt DateTime  @map("expires_at")
+  createdAt DateTime  @default(now()) @map("created_at")
+  usedAt    DateTime? @map("used_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([tokenHash])
+  @@index([userId])
+  @@map("password_reset_tokens")
+}
+
+model DiseaseDictionary {
+  id   String @id @default(uuid()) @db.Uuid
+  code String @unique @db.VarChar(10)
+  name String @db.Text
+
+  conditions ChronicCondition[]
+
+  @@index([name])
+  @@map("disease_dictionary")
+}
+
+model DiseaseGroup {
+  id         String @id @default(uuid()) @db.Uuid
+  start_code String @map("start_code")
+  end_code   String @map("end_code")
+  name       String @db.VarChar(255)
+
+  @@unique([start_code, end_code])
+  @@map("disease_groups")
+}
+
+model MedicationsDictionary {
+  id            String   @id @default(uuid()) @db.Uuid
+  nome          String   @db.VarChar(255)
+  laboratorio   String   @db.VarChar(255)
+  substancias   String[] 
+  apresentacoes String[]
+  tarjas        String[]
+
+  @@index([nome])
+  @@map("medications_dictionary")
+  forbiddenMedications ForbiddenMedication[]
+}
+
+model Allergy {
+  id        String   @id @default(uuid()) @db.Uuid
+  userId    String   @map("user_id") @db.Uuid
+  name      String   @db.VarChar(255)
+  severity  String?  @db.VarChar(50)
+  notes     String?
+  createdAt DateTime @default(now()) @map("created_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@map("allergies")
+}
+
+model ForbiddenMedication {
+  id                     String   @id @default(uuid()) @db.Uuid
+  userId                 String   @map("user_id") @db.Uuid
+  medicationsDictionaryId String   @map("medications_dictionary_id") @db.Uuid
+  reason                 String
+  createdAt              DateTime @default(now()) @map("created_at")
+
+  user                User                  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  medicationsDictionary MedicationsDictionary @relation(fields: [medicationsDictionaryId], references: [id])
+
+  @@unique([userId, medicationsDictionaryId])
+  @@index([userId])
+  @@map("forbidden_medications")
+}
+
+model Staff {
+  id                 String    @id @default(uuid()) @db.Uuid
+  fullName           String    @map("full_name") @db.VarChar(255)
+  email              String?   @unique @db.VarChar(320)
+  cpf                String?   @unique @db.VarChar(14)
+  registrationNumber String    // Refere-se ao CRM/COREN
+  role               StaffRole
+  passwordHash       String?   @map("password_hash")
+  createdAt          DateTime  @default(now())
+  updatedAt          DateTime  @updatedAt
+
+  @@map("staff")
+}
+
+model IdempotencyKey {
+  id            String    @id @default(uuid()) @db.Uuid
+  key           String    @unique @db.VarChar(255)
+  userId        String    @map("user_id") @db.Uuid
+  operation     String    @db.VarChar(100)
+  payloadHash   String    @map("payload_hash") @db.VarChar(64)
+  status        String    @default("PROCESSING") @db.VarChar(20)
+  result        Json?
+  createdAt     DateTime  @default(now()) @map("created_at")
+  completedAt   DateTime? @map("completed_at")
+
+  @@index([userId])
+  @@index([status])
+  @@map("idempotency_keys")
+}
+
+model OutboxEvent {
+  id            String    @id @default(uuid()) @db.Uuid
+  eventType     String    @map("event_type") @db.VarChar(100)
+  aggregateId   String    @map("aggregate_id") @db.VarChar(255)
+  payload       Json
+  status        String    @default("PENDING") @db.VarChar(20)
+  attempts      Int       @default(0)
+  lastError     String?   @map("last_error")
+  createdAt     DateTime  @default(now()) @map("created_at")
+  publishedAt   DateTime? @map("published_at")
+
+  @@index([status])
+  @@index([createdAt])
+  @@map("outbox_events")
+}
