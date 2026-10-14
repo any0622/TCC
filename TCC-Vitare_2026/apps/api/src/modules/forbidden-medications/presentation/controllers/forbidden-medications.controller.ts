@@ -10,7 +10,7 @@ import {
 } from '@nestjs/common';
 import { CurrentUser } from '../../../../common/decorators/current-user.decorator';
 import type { AuthenticatedUser } from '../../../../common/decorators/current-user.decorator';
-import { CreateForbiddenMedicationRequestDto, ForbiddenMedicationResponseDto } from './presentation/dto/forbidden-medication.dto';
+import type { CreateForbiddenMedicationRequestDto, ForbiddenMedicationResponseDto } from '../dto';
 import {
   CreateForbiddenMedicationUseCase,
   RemoveForbiddenMedicationUseCase,

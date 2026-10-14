@@ -10,7 +10,7 @@ import {
 } from './application/use-cases';
 
 // Application Ports
-import { MedicationRepositoryPort } from './application/ports';
+import { MedicationRepositoryPort, MEDICATION_REPOSITORY_PORT } from './application/ports';
 
 // Infrastructure - Repositories
 import { PrismaMedicationRepository } from './infrastructure/repositories/prisma-medication.repository';
@@ -29,7 +29,7 @@ import { MedicationsController } from './presentation/controllers/medications.co
     GetMedicationHistoryUseCase,
 
     // Repository Implementation
-    { provide: MedicationRepositoryPort, useClass: PrismaMedicationRepository },
+    { provide: MEDICATION_REPOSITORY_PORT, useClass: PrismaMedicationRepository },
   ],
   exports: [
     CreateMedicationUseCase,

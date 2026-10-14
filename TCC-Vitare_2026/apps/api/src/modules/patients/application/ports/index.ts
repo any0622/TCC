@@ -1,3 +1,5 @@
+export const PATIENT_REPOSITORY_PORT = 'PATIENT_REPOSITORY_PORT';
+
 export const PATIENTS_REPOSITORY_PORT = 'PATIENTS_REPOSITORY_PORT';
 import { PatientProfile } from '../../domain/entities/patient-profile.entity';
 

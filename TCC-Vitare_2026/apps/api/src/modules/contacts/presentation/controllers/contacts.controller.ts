@@ -10,7 +10,7 @@ import {
 } from '@nestjs/common';
 import { CurrentUser } from '../../../../common/decorators/current-user.decorator';
 import type { AuthenticatedUser } from '../../../../common/decorators/current-user.decorator';
-import { CreateContactRequestDto, ContactResponseDto } from './presentation/dto/contact.dto';
+import type { CreateContactRequestDto, ContactResponseDto } from '../dto';
 import {
   CreateContactUseCase,
   RemoveContactUseCase,

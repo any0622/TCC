@@ -10,7 +10,7 @@ import {
 } from '@nestjs/common';
 import { CurrentUser } from '../../../../common/decorators/current-user.decorator';
 import type { AuthenticatedUser } from '../../../../common/decorators/current-user.decorator';
-import { CreateAllergyRequestDto, AllergyResponseDto } from '../dto';
+import type { CreateAllergyRequestDto, AllergyResponseDto } from '../dto';
 import {
   CreateAllergyUseCase,
   RemoveAllergyUseCase,

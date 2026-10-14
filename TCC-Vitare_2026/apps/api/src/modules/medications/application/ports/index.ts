@@ -1,3 +1,6 @@
+export const MEDICATION_REPOSITORY_PORT = 'MEDICATION_REPOSITORY_PORT';
+export const MEDICATION_RESTRICTION_SERVICE_PORT = 'MEDICATION_RESTRICTION_SERVICE_PORT';
+
 export const MEDICATIONS_REPOSITORY_PORT = 'MEDICATIONS_REPOSITORY_PORT';
 import { Medication, MedicationHistory } from '../../domain/entities/medication.entity';
 import { MedicationRestrictionService } from '../../domain/services/medication-restriction.service';

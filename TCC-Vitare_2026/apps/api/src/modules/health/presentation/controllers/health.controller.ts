@@ -2,7 +2,7 @@ import { Controller, Get, HttpCode, HttpStatus, Res } from '@nestjs/common';
 import type { Response } from 'express';
 import { Public } from '../../../../common/decorators/public.decorator';
 import type { HealthCheckUseCase } from '../../application/use-cases/health-check.use-case';
-import { HealthCheckResponseDto, HealthReadinessResponseDto } from './presentation/dto/health.dto';
+import type { HealthCheckResponseDto, HealthReadinessResponseDto } from '../dto';
 
 @Controller('health')
 export class HealthController {

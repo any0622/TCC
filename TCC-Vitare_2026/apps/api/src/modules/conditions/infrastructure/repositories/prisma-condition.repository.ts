@@ -51,7 +51,13 @@ export class PrismaConditionRepository implements ConditionRepositoryPort {
 
   private toConditionWithDisease(prismaCondition: any): ConditionWithDisease {
     return {
-      ...this.toDomain(prismaCondition),
+      id: prismaCondition.id,
+      userId: prismaCondition.userId,
+      diseaseId: prismaCondition.diseaseId,
+      notes: prismaCondition.notes,
+      diagnosedAt: prismaCondition.diagnosedAt,
+      isActive: prismaCondition.isActive,
+      createdAt: prismaCondition.createdAt,
       disease: {
         id: prismaCondition.disease.id,
         code: prismaCondition.disease.code,

@@ -6,7 +6,7 @@ import {
   GetForbiddenMedicationsUseCase,
 } from './application/use-cases';
 
-import { ForbiddenMedicationRepositoryPort } from './application/ports';
+import { ForbiddenMedicationRepositoryPort, FORBIDDEN_MEDICATION_REPOSITORY_PORT } from './application/ports';
 import { PrismaForbiddenMedicationRepository } from './infrastructure/repositories/prisma-forbidden-medication.repository';
 import { ForbiddenMedicationsController } from './presentation/controllers/forbidden-medications.controller';
 
@@ -16,7 +16,7 @@ import { ForbiddenMedicationsController } from './presentation/controllers/forbi
     CreateForbiddenMedicationUseCase,
     RemoveForbiddenMedicationUseCase,
     GetForbiddenMedicationsUseCase,
-    { provide: ForbiddenMedicationRepositoryPort, useClass: PrismaForbiddenMedicationRepository },
+    { provide: FORBIDDEN_MEDICATION_REPOSITORY_PORT, useClass: PrismaForbiddenMedicationRepository },
   ],
   exports: [
     CreateForbiddenMedicationUseCase,

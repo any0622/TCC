@@ -15,16 +15,7 @@ import type { Request, Response } from 'express';
 import { Public } from '../../../../common/decorators/public.decorator';
 import { CurrentUser } from '../../../../common/decorators/current-user.decorator';
 import type { AuthenticatedUser } from '../../../../common/decorators/current-user.decorator';
-import {
-  RegisterDto,
-  LoginDto,
-  RefreshTokenDto,
-  ForgotPasswordDto,
-  ResetPasswordDto,
-  ExchangeGoogleCodeDto,
-  AuthResponseDto,
-  UserProfileDto,
-} from '../dto';
+import type { RegisterDto, LoginDto, RefreshTokenDto, ForgotPasswordDto, ResetPasswordDto, ExchangeGoogleCodeDto, AuthResponseDto, UserProfileDto,  } from '../dto';
 import {
   RegisterUserUseCase,
   LoginUserUseCase,

@@ -1,1 +1,2 @@
-export { Condition.dto } from './condition.dto';
+export type { CreateConditionRequestDto } from './condition.dto';
+export type { ConditionResponseDto } from './condition.dto';

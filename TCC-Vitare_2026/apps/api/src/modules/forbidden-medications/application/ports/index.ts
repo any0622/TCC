@@ -1,3 +1,5 @@
+export const FORBIDDEN_MEDICATION_REPOSITORY_PORT = 'FORBIDDEN_MEDICATION_REPOSITORY_PORT';
+
 export const FORBIDDEN_MEDICATIONS_REPOSITORY_PORT = 'FORBIDDEN_MEDICATIONS_REPOSITORY_PORT';
 import { ForbiddenMedication, ForbiddenMedicationWithDetails } from '../../domain/repositories';
 

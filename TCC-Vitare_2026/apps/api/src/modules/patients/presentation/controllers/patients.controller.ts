@@ -9,7 +9,7 @@ import {
 } from '@nestjs/common';
 import { CurrentUser } from '../../../../common/decorators/current-user.decorator';
 import type { AuthenticatedUser } from '../../../../common/decorators/current-user.decorator';
-import { UpdatePatientProfileRequestDto, PatientProfileResponseDto } from './presentation/dto/patient.dto';
+import type { UpdatePatientProfileRequestDto, PatientProfileResponseDto } from '../dto';
 import type { GetPatientProfileUseCase } from '../../application/use-cases/get-patient-profile.use-case';
 import type { UpdatePatientProfileUseCase } from '../../application/use-cases/update-patient-profile.use-case';
 import type { DeletePatientAccountUseCase } from '../../application/use-cases/delete-patient-account.use-case';

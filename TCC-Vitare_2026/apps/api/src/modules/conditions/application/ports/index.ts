@@ -1,4 +1,5 @@
-export const CONDITIONS_REPOSITORY_PORT = 'CONDITIONS_REPOSITORY_PORT';
+export const CONDITION_REPOSITORY_PORT = 'CONDITION_REPOSITORY_PORT';
+
 import { ChronicCondition, ConditionWithDisease } from '../../domain/repositories';
 
 export interface ConditionRepositoryPort {

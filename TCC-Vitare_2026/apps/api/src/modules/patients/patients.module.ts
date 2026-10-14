@@ -8,7 +8,7 @@ import {
 } from './application/use-cases';
 
 // Application Ports
-import { PatientRepositoryPort } from './application/ports';
+import { PatientRepositoryPort, PATIENT_REPOSITORY_PORT } from './application/ports';
 
 // Infrastructure - Repositories
 import { PrismaPatientRepository } from './infrastructure/repositories/prisma-patient.repository';
@@ -25,7 +25,7 @@ import { PatientsController } from './presentation/controllers/patients.controll
     DeletePatientAccountUseCase,
 
     // Repository Implementation
-    { provide: PatientRepositoryPort, useClass: PrismaPatientRepository },
+    { provide: PATIENT_REPOSITORY_PORT, useClass: PrismaPatientRepository },
   ],
   exports: [
     GetPatientProfileUseCase,

@@ -18,3 +18,10 @@ export class ContactAccessDeniedException extends ContactDomainException {
     this.name = 'ContactAccessDeniedException';
   }
 }
+
+export class InvalidContactDataException extends ContactDomainException {
+  constructor(message: string) {
+    super(message);
+    this.name = 'InvalidContactDataException';
+  }
+}

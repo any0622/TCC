@@ -11,12 +11,7 @@ import {
 } from '@nestjs/common';
 import { CurrentUser } from '../../../../common/decorators/current-user.decorator';
 import type { AuthenticatedUser } from '../../../../common/decorators/current-user.decorator';
-import {
-  CreateMedicationRequestDto,
-  UpdateMedicationRequestDto,
-  MedicationResponseDto,
-  MedicationHistoryResponseDto,
-} from './presentation/dto/medication.dto';
+import type { CreateMedicationRequestDto, UpdateMedicationRequestDto, MedicationResponseDto, MedicationHistoryResponseDto,  } from '../dto';
 import {
   CreateMedicationUseCase,
   UpdateMedicationUseCase,

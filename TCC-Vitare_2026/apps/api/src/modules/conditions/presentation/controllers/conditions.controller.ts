@@ -10,7 +10,7 @@ import {
 } from '@nestjs/common';
 import { CurrentUser } from '../../../../common/decorators/current-user.decorator';
 import type { AuthenticatedUser } from '../../../../common/decorators/current-user.decorator';
-import { CreateConditionRequestDto, ConditionResponseDto } from './presentation/dto/condition.dto';
+import type { CreateConditionRequestDto, ConditionResponseDto } from '../dto';
 import {
   CreateConditionUseCase,
   RemoveConditionUseCase,

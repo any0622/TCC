@@ -11,11 +11,7 @@ import {
 import { Throttle } from '@nestjs/throttler';
 import { CurrentUser } from '../../../../common/decorators/current-user.decorator';
 import type { AuthenticatedUser } from '../../../../common/decorators/current-user.decorator';
-import {
-  TriggerEmergencyRequestDto,
-  EmergencyResponseDto,
-  CursorPaginatedEmergencyResponseDto,
-} from './presentation/dto/emergency.dto';
+import type { TriggerEmergencyRequestDto, EmergencyResponseDto, CursorPaginatedEmergencyResponseDto,  } from '../dto';
 import {
   TriggerEmergencyUseCase,
   GetEmergenciesUseCase,

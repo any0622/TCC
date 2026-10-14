@@ -11,7 +11,7 @@ import {
 import { Throttle } from '@nestjs/throttler';
 import type { Request } from 'express';
 import { CurrentUser } from '../../../../common/decorators/current-user.decorator';
-import { RegisterStaffRequestDto, LoginStaffRequestDto, StaffTokenResponseDto } from './presentation/dto/staff.dto';
+import type { RegisterStaffRequestDto, LoginStaffRequestDto, StaffTokenResponseDto } from '../dto';
 import {
   RegisterStaffUseCase,
   LoginStaffUseCase,

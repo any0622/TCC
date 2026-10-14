@@ -6,7 +6,7 @@ import {
   GetContactsUseCase,
 } from './application/use-cases';
 
-import { ContactRepositoryPort } from './application/ports';
+import { ContactRepositoryPort, CONTACT_REPOSITORY_PORT } from './application/ports';
 import { PrismaContactRepository } from './infrastructure/repositories/prisma-contact.repository';
 import { ContactsController } from './presentation/controllers/contacts.controller';
 
@@ -16,7 +16,7 @@ import { ContactsController } from './presentation/controllers/contacts.controll
     CreateContactUseCase,
     RemoveContactUseCase,
     GetContactsUseCase,
-    { provide: ContactRepositoryPort, useClass: PrismaContactRepository },
+    { provide: CONTACT_REPOSITORY_PORT, useClass: PrismaContactRepository },
   ],
   exports: [
     CreateContactUseCase,

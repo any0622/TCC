@@ -1,5 +1,5 @@
 import { Controller, Get, Query } from '@nestjs/common';
-import { SearchDiseaseRequestDto, DiseaseSearchResultResponseDto } from './presentation/dto/disease-dictionary.dto';
+import type { SearchDiseaseRequestDto, DiseaseSearchResultResponseDto } from '../dto';
 import type { SearchDiseasesUseCase, FindDiseaseByIdUseCase } from '../../application/use-cases';
 
 @Controller('disease-dictionary')

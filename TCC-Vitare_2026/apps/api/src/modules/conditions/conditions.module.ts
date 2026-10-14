@@ -6,7 +6,7 @@ import {
   GetConditionsUseCase,
 } from './application/use-cases';
 
-import { ConditionRepositoryPort } from './application/ports';
+import { ConditionRepositoryPort, CONDITION_REPOSITORY_PORT } from './application/ports';
 import { PrismaConditionRepository } from './infrastructure/repositories/prisma-condition.repository';
 import { ConditionsController } from './presentation/controllers/conditions.controller';
 
@@ -16,7 +16,7 @@ import { ConditionsController } from './presentation/controllers/conditions.cont
     CreateConditionUseCase,
     RemoveConditionUseCase,
     GetConditionsUseCase,
-    { provide: ConditionRepositoryPort, useClass: PrismaConditionRepository },
+    { provide: CONDITION_REPOSITORY_PORT, useClass: PrismaConditionRepository },
   ],
   exports: [
     CreateConditionUseCase,

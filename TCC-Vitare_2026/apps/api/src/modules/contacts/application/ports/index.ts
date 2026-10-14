@@ -1,3 +1,5 @@
+export const CONTACT_REPOSITORY_PORT = 'CONTACT_REPOSITORY_PORT';
+
 export const CONTACTS_REPOSITORY_PORT = 'CONTACTS_REPOSITORY_PORT';
 import { EmergencyContact } from '../../domain/entities/contact.entity';
 

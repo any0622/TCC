@@ -1,5 +1,7 @@
 import { ChronicCondition } from '../entities/chronic-condition.entity';
 
+export { ChronicCondition };
+
 export interface ConditionWithDisease extends ChronicConditionProps {
   disease: {
     id: string;

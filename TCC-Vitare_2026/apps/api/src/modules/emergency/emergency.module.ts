@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
-import { IdempotencyModule } from '../../../infra/idempotency/idempotency.module';
-import { OutboxModule } from '../../../infra/outbox/outbox.module';
+import { IdempotencyModule } from '../../infra/idempotency/idempotency.module';
+import { OutboxModule } from '../../infra/outbox/outbox.module';
 
 import {
   TriggerEmergencyUseCase,
@@ -8,7 +8,7 @@ import {
   GetEmergenciesWithCursorUseCase,
 } from './application/use-cases';
 
-import { EmergencyRepositoryPort } from './application/ports';
+import { EmergencyRepositoryPort, EMERGENCY_REPOSITORY_PORT } from './application/ports';
 import { PrismaEmergencyRepository } from './infrastructure/repositories/prisma-emergency.repository';
 import { EmergencyController } from './presentation/controllers/emergency.controller';
 import { EmergencyGateway } from './emergency.gateway';
@@ -20,7 +20,7 @@ import { EmergencyGateway } from './emergency.gateway';
     TriggerEmergencyUseCase,
     GetEmergenciesUseCase,
     GetEmergenciesWithCursorUseCase,
-    { provide: EmergencyRepositoryPort, useClass: PrismaEmergencyRepository },
+    { provide: EMERGENCY_REPOSITORY_PORT, useClass: PrismaEmergencyRepository },
     EmergencyGateway,
   ],
   exports: [EmergencyGateway],
